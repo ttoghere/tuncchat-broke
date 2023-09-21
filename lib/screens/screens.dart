@@ -1,3 +1,3 @@
-export 'mobile_chat_screen.dart';
-export 'mobile_layout_screen.dart';
-export 'web_layout_screen.dart';
+export 'chat/mobile_chat_screen.dart';
+export 'layout/mobile_layout_screen.dart';
+export 'layout/web_layout_screen.dart';
