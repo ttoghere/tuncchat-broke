@@ -1,3 +1,10 @@
 export 'chat/mobile_chat_screen.dart';
 export 'layout/mobile_layout_screen.dart';
 export 'layout/web_layout_screen.dart';
+export 'status/confirm_status.dart';
+export 'status/status_screen.dart';
+export 'landing/landing_screen.dart';
+export 'contacts/contacts.dart';
+export 'auth/pages/otp.dart';
+export 'auth/pages/login.dart';
+export 'auth/pages/user_information.dart';

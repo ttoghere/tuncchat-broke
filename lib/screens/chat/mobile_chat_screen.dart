@@ -3,6 +3,7 @@ import 'package:tuncchat/utils/utils.dart';
 import 'package:tuncchat/widgets/widgets.dart';
 
 class MobileChatScreen extends StatelessWidget {
+  static const routeName = "/mobilechat";
   const MobileChatScreen({Key? key}) : super(key: key);
 
   @override

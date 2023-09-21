@@ -3,6 +3,7 @@ import 'package:tuncchat/utils/utils.dart';
 import 'package:tuncchat/widgets/widgets.dart';
 
 class MobileLayoutScreen extends StatelessWidget {
+  static const routeName = "/mobilelayout";
   const MobileLayoutScreen({Key? key}) : super(key: key);
 
   @override
