@@ -43,26 +43,31 @@ class SelectContactsScreen extends ConsumerWidget {
               itemCount: contactList.length,
               itemBuilder: (context, index) {
                 final contact = contactList[index];
-                return InkWell(
-                  onTap: () => selectContact(ref, contact, context),
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
-                    child: ListTile(
-                      leading: contact.photo == null
-                          ? null
-                          : CircleAvatar(
-                              backgroundImage: MemoryImage(contact.photo!),
-                              radius: 30,
-                            ),
-                      title: Text(contact.displayName),
-                    ),
-                  ),
-                );
+                return contactSelectorItem(ref, contact, context);
               },
             ),
             error: (err, trace) => ErrorScreen(error: err.toString()),
             loading: () => const Loader(),
           ),
+    );
+  }
+
+  InkWell contactSelectorItem(
+      WidgetRef ref, Contact contact, BuildContext context) {
+    return InkWell(
+      onTap: () => selectContact(ref, contact, context),
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 8.0),
+        child: ListTile(
+          leading: contact.photo == null
+              ? null
+              : CircleAvatar(
+                  backgroundImage: MemoryImage(contact.photo!),
+                  radius: 30,
+                ),
+          title: Text(contact.displayName),
+        ),
+      ),
     );
   }
 }

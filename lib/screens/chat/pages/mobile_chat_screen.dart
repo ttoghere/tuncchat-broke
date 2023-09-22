@@ -1,19 +1,54 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tuncchat/models/user_model.dart';
+import 'package:tuncchat/screens/auth/controller/auth_controller.dart';
+import 'package:tuncchat/screens/chat/widgets/message_chat_field.dart';
+
 import 'package:tuncchat/utils/utils.dart';
 import 'package:tuncchat/widgets/widgets.dart';
 
-class MobileChatScreen extends StatelessWidget {
+class MobileChatScreen extends ConsumerWidget {
   static const routeName = "/mobilechat";
-  const MobileChatScreen({Key? key, required name, required uid})
-      : super(key: key);
+  final String name;
+  final String uid;
+  const MobileChatScreen({
+    Key? key,
+    required this.name,
+    required this.uid,
+  }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
+      backgroundColor: appBarColor,
       appBar: AppBar(
+        elevation: 0,
         backgroundColor: appBarColor,
-        title: Text(
-          info[0]['name'].toString(),
+        title: StreamBuilder<UserModel>(
+          stream: ref.read(authControllerProvider).userDataById(uid),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (snapshot.hasError) {
+              return const Text("");
+            }
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(name),
+                Text(
+                  snapshot.data!.isOnline ? "Online" : "Offline",
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge!
+                      .copyWith(color: Colors.white),
+                )
+              ],
+            );
+          },
         ),
         centerTitle: false,
         actions: [
@@ -33,51 +68,8 @@ class MobileChatScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          const Expanded(
-            child: ChatList(),
-          ),
-          TextField(
-            decoration: InputDecoration(
-              filled: true,
-              fillColor: mobileChatBoxColor,
-              prefixIcon: const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.0),
-                child: Icon(
-                  Icons.emoji_emotions,
-                  color: Colors.grey,
-                ),
-              ),
-              suffixIcon: const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Icon(
-                      Icons.camera_alt,
-                      color: Colors.grey,
-                    ),
-                    Icon(
-                      Icons.attach_file,
-                      color: Colors.grey,
-                    ),
-                    Icon(
-                      Icons.money,
-                      color: Colors.grey,
-                    ),
-                  ],
-                ),
-              ),
-              hintText: 'Type a message!',
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20.0),
-                borderSide: const BorderSide(
-                  width: 0,
-                  style: BorderStyle.none,
-                ),
-              ),
-              contentPadding: const EdgeInsets.all(10),
-            ),
-          ),
+          Expanded(child: ChatList(recieverUserId: uid)),
+          MessageChatField(recieverUserId: uid),
         ],
       ),
     );

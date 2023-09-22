@@ -1,48 +1,90 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tuncchat/screens/auth/controller/auth_controller.dart';
 import 'package:tuncchat/screens/screens.dart';
 import 'package:tuncchat/utils/utils.dart';
 import 'package:tuncchat/widgets/widgets.dart';
 
-class MobileLayoutScreen extends StatelessWidget {
+class MobileLayoutScreen extends ConsumerStatefulWidget {
   static const routeName = "/mobilelayout";
   const MobileLayoutScreen({Key? key}) : super(key: key);
+
+  @override
+  ConsumerState<MobileLayoutScreen> createState() => _MobileLayoutScreenState();
+}
+
+class _MobileLayoutScreenState extends ConsumerState<MobileLayoutScreen>
+    with WidgetsBindingObserver {
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.resumed:
+        ref.read(authControllerProvider).setUserState(true);
+        break;
+      case AppLifecycleState.inactive:
+      case AppLifecycleState.detached:
+      case AppLifecycleState.paused:
+        ref.read(authControllerProvider).setUserState(false);
+        break;
+      case AppLifecycleState.hidden:
+    }
+    super.didChangeAppLifecycleState(state);
+  }
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
+        backgroundColor: textColor,
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: appBarColor,
+          backgroundColor: backgroundColor,
           centerTitle: false,
           title: const Text(
-            'WhatsApp',
+            'TuncChat',
             style: TextStyle(
               fontSize: 20,
-              color: Colors.grey,
+              color: textColor,
               fontWeight: FontWeight.bold,
             ),
           ),
           actions: [
             IconButton(
-              icon: const Icon(Icons.search, color: Colors.grey),
+              icon: Icon(Icons.search, color: Colors.grey[900]!),
               onPressed: () {},
             ),
             IconButton(
-              icon: const Icon(Icons.more_vert, color: Colors.grey),
-              onPressed: () {},
+              icon: Icon(Icons.more_vert, color: Colors.grey[900]!),
+              onPressed: () async {
+                await FirebaseAuth.instance.signOut().then(
+                      (value) => Navigator.of(context)
+                          .pushReplacementNamed(LandingScreen.routeName),
+                    );
+              },
             ),
           ],
-          bottom: const TabBar(
-            indicatorColor: tabColor,
+          bottom: TabBar(
+            indicatorColor: textColor,
             indicatorWeight: 4,
-            labelColor: tabColor,
-            unselectedLabelColor: Colors.grey,
+            labelColor: textColor,
+            unselectedLabelColor: Colors.grey[900]!,
             labelStyle: TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-            tabs: [
+                fontWeight: FontWeight.bold, color: Colors.grey[900]!),
+            tabs: const [
               Tab(
                 text: 'CHATS',
               ),
@@ -60,14 +102,14 @@ class MobileLayoutScreen extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => SelectContactsScreen(),
+                builder: (context) => const SelectContactsScreen(),
               ),
             );
           },
-          backgroundColor: tabColor,
+          backgroundColor: textColor,
           child: const Icon(
             Icons.comment,
-            color: Colors.white,
+            color: backgroundColor,
           ),
         ),
       ),
