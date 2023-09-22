@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:js';
 
 import 'package:flutter/material.dart';
 import 'package:tuncchat/common/widgets/error.dart';
@@ -35,10 +34,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       final name = arguments["name"];
       final uid = arguments["uid"];
       return MaterialPageRoute(
-        builder: (context) => const MobileChatScreen(
-            // name: name,
-            // uid: uid,
-            ),
+        builder: (context) => MobileChatScreen(
+          name: name,
+          uid: uid,
+        ),
       );
     case LandingScreen.routeName:
       return MaterialPageRoute(

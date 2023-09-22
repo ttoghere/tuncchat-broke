@@ -4,7 +4,8 @@ import 'package:tuncchat/widgets/widgets.dart';
 
 class MobileChatScreen extends StatelessWidget {
   static const routeName = "/mobilechat";
-  const MobileChatScreen({Key? key}) : super(key: key);
+  const MobileChatScreen({Key? key, required name, required uid})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

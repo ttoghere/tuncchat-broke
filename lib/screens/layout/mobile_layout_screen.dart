@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tuncchat/screens/screens.dart';
 import 'package:tuncchat/utils/utils.dart';
 import 'package:tuncchat/widgets/widgets.dart';
 
@@ -56,7 +57,13 @@ class MobileLayoutScreen extends StatelessWidget {
         ),
         body: const ContactsList(),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => SelectContactsScreen(),
+              ),
+            );
+          },
           backgroundColor: tabColor,
           child: const Icon(
             Icons.comment,
