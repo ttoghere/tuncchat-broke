@@ -1,8 +1,8 @@
 export 'chat/pages/mobile_chat_screen.dart';
 export 'layout/mobile_layout_screen.dart';
 export 'layout/web_layout_screen.dart';
-export 'status/confirm_status.dart';
-export 'status/status_screen.dart';
+export 'status/pages/confirm_status.dart';
+export 'status/pages/status_screen.dart';
 export 'landing/landing_screen.dart';
 export 'contacts/pages/contacts.dart';
 export 'auth/pages/otp.dart';

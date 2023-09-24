@@ -21,10 +21,11 @@ class MobileChatScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      backgroundColor: appBarColor,
+      backgroundColor: textColor,
       appBar: AppBar(
+        iconTheme: const IconThemeData(color: textColor),
         elevation: 0,
-        backgroundColor: appBarColor,
+        backgroundColor: backgroundColor,
         title: StreamBuilder<UserModel>(
           stream: ref.read(authControllerProvider).userDataById(uid),
           builder: (context, snapshot) {
@@ -38,13 +39,19 @@ class MobileChatScreen extends ConsumerWidget {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(name),
+                Text(
+                  name,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge!
+                      .copyWith(color: textColor),
+                ),
                 Text(
                   snapshot.data!.isOnline ? "Online" : "Offline",
                   style: Theme.of(context)
                       .textTheme
                       .bodyLarge!
-                      .copyWith(color: Colors.white),
+                      .copyWith(color: textColor),
                 )
               ],
             );
@@ -54,15 +61,24 @@ class MobileChatScreen extends ConsumerWidget {
         actions: [
           IconButton(
             onPressed: () {},
-            icon: const Icon(Icons.video_call),
+            icon: const Icon(
+              Icons.video_call,
+              color: textColor,
+            ),
           ),
           IconButton(
             onPressed: () {},
-            icon: const Icon(Icons.call),
+            icon: const Icon(
+              Icons.call,
+              color: textColor,
+            ),
           ),
           IconButton(
             onPressed: () {},
-            icon: const Icon(Icons.more_vert),
+            icon: const Icon(
+              Icons.more_vert,
+              color: textColor,
+            ),
           ),
         ],
       ),

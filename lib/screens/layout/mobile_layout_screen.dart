@@ -1,8 +1,14 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tuncchat/common/utils/utils.dart';
 import 'package:tuncchat/screens/auth/controller/auth_controller.dart';
 import 'package:tuncchat/screens/screens.dart';
+import 'package:tuncchat/screens/status/pages/status_contacts_screen.dart';
 import 'package:tuncchat/utils/utils.dart';
 import 'package:tuncchat/widgets/widgets.dart';
 
@@ -15,7 +21,15 @@ class MobileLayoutScreen extends ConsumerStatefulWidget {
 }
 
 class _MobileLayoutScreenState extends ConsumerState<MobileLayoutScreen>
-    with WidgetsBindingObserver {
+    with WidgetsBindingObserver, TickerProviderStateMixin {
+  late TabController tabBarController;
+  @override
+  void initState() {
+    super.initState();
+    tabBarController = TabController(length: 3, vsync: this);
+    WidgetsBinding.instance.addObserver(this);
+  }
+
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     switch (state) {
@@ -30,12 +44,6 @@ class _MobileLayoutScreenState extends ConsumerState<MobileLayoutScreen>
       case AppLifecycleState.hidden:
     }
     super.didChangeAppLifecycleState(state);
-  }
-
-  @override
-  void initState() {
-    WidgetsBinding.instance.addObserver(this);
-    super.initState();
   }
 
   @override
@@ -78,6 +86,7 @@ class _MobileLayoutScreenState extends ConsumerState<MobileLayoutScreen>
             ),
           ],
           bottom: TabBar(
+            controller: tabBarController,
             indicatorColor: textColor,
             indicatorWeight: 4,
             labelColor: textColor,
@@ -97,14 +106,28 @@ class _MobileLayoutScreenState extends ConsumerState<MobileLayoutScreen>
             ],
           ),
         ),
-        body: const ContactsList(),
+        body: TabBarView(
+          controller: tabBarController,
+          children: const [
+            ContactsList(),
+            StatusContactsScreen(),
+            Text("Calls"),
+          ],
+        ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => const SelectContactsScreen(),
-              ),
-            );
+          onPressed: () async {
+            if (tabBarController.index == 0) {
+              Navigator.pushNamed(context, SelectContactsScreen.routeName);
+            } else {
+              File? pickedImage = await pickImageFromGallery(context);
+              if (pickedImage != null) {
+                Navigator.pushNamed(
+                  context,
+                  ConfirmStatusScreen.routeName,
+                  arguments: pickedImage,
+                );
+              }
+            }
           },
           backgroundColor: textColor,
           child: const Icon(

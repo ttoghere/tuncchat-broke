@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:tuncchat/common/widgets/error.dart';
+import 'package:tuncchat/models/status_model.dart';
 import 'package:tuncchat/screens/screens.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
@@ -16,6 +17,12 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         builder: (context) => OTPScreen(
           verificationId: verificationId,
         ),
+      );
+    case StatusScreen.routeName:
+      final statusArg = settings.arguments as Status;
+
+      return MaterialPageRoute(
+        builder: (context) => StatusScreen(status: statusArg),
       );
     case MobileLayoutScreen.routeName:
       return MaterialPageRoute(
