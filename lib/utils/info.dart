@@ -11,7 +11,7 @@ const info = [
     'message': 'Hello, whats up',
     'time': '2:25 pm',
     'profilePic':
-        'https://www.socialketchup.in/wp-content/uploads/2020/05/fi-vill-JOHN-DOE.jpg',
+        'https://scontent.fadb2-1.fna.fbcdn.net/v/t1.6435-9/97118022_963873147398208_5016586750223450112_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=OxO3RWSSCUMAX_Zjeun&_nc_ht=scontent.fadb2-1.fna&oh=00_AfDfCEIQkLaPYvCYlny1NdrvkIGv_Acs5seUTh2dFCRVrA&oe=6532DFB8',
   },
   {
     'name': 'Mehmet Kartal',
